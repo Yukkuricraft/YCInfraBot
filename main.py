@@ -33,14 +33,13 @@ gcp_driver = ComputeEngine(
 PREFIX = "!"
 bot = commands.Bot(command_prefix=PREFIX)
 
-# bot commands
-USAGE = f"Usage: `{PREFIX}ycsandbox [start|stop|status]`"
-
 
 @bot.command(name="ycsandbox")
 async def _ycsandbox(ctx, *args):
+    usage = f"Usage: `{PREFIX}ycsandbox [start|stop|status]`"
+
     if not args or len(args) > 1:
-        await ctx.send(USAGE)
+        await ctx.send(usage)
         return
 
     subcmd = args[0]
@@ -52,7 +51,7 @@ async def _ycsandbox(ctx, *args):
         elif subcmd == "status":
             await checkStatusServer(ctx)
         else:
-            await ctx.send(USAGE)
+            await ctx.send(usage)
     except Exception as e:
         await ctx.send(f"An error occurred while processing your command: {e}")
 
