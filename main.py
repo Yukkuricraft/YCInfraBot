@@ -19,7 +19,7 @@ gcp_sa_json_str = message_bytes.decode("ascii")
 # Why? Because https://github.com/apache/libcloud/pull/1214 needs to be merged still
 gcp_sa_temp_file = tempfile.NamedTemporaryFile()
 gcp_sa_temp_file.write(gcp_sa_json_str.encode())
-gcp_sa_temp_file.flush() # Occasionally getting cases where contents aren't flushed by the time ComputeEngine() is called
+gcp_sa_temp_file.flush()  # Occasionally getting cases where contents aren't flushed by the time ComputeEngine() is called
 
 ComputeEngine = get_driver(Provider.GCE)
 gcp_driver = ComputeEngine(
@@ -35,6 +35,7 @@ bot = commands.Bot(command_prefix=PREFIX)
 
 # bot commands
 USAGE = f"Usage: `{PREFIX}ycsandbox [start|stop|status]`"
+
 
 @bot.command(name="ycsandbox")
 async def _ycsandbox(ctx, *args):
@@ -55,6 +56,7 @@ async def _ycsandbox(ctx, *args):
     except Exception as e:
         await ctx.send(f"An error occurred while processing your command: {e}")
 
+
 def getYCNode():
     nodes = gcp_driver.list_nodes(secrets.GCP_PROJECT_ZONE)
     nodes = list(filter(lambda node: node.name == secrets.COMPUTE_INSTANCE_NAME, nodes))
@@ -64,9 +66,11 @@ def getYCNode():
 
     return nodes[0]
 
+
 def isYCNodeRunning():
     node = getYCNode()
     return node.state.upper() == "RUNNING"
+
 
 async def stopServer(ctx):
     if not isYCNodeRunning():
@@ -83,6 +87,7 @@ async def stopServer(ctx):
         await ctx.send("Failed to stop server.")
         raise
 
+
 async def startServer(ctx):
     if isYCNodeRunning():
         await ctx.send("Server is already running.")
@@ -98,6 +103,7 @@ async def startServer(ctx):
         await ctx.send("Failed to start server.")
         raise
 
+
 async def checkStatusServer(ctx):
     node = getYCNode()
     await ctx.send(f"Server node `{node.name}` is currently: `{node.state.upper()}`")
@@ -107,4 +113,3 @@ async def checkStatusServer(ctx):
 token = secrets.discord_bot_token
 print("Bot starting")
 bot.run(token)
-
