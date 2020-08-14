@@ -1,4 +1,5 @@
 FROM python:alpine3.11
+# Add python/pip build deps due to alpine
 RUN apk add --no-cache gcc musl-dev libffi-dev openssl-dev
 
 # Add bash

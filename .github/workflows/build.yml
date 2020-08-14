@@ -1,0 +1,34 @@
+name: Build and Publish YCInfraBot
+on:
+  push:
+    branches:
+      - master
+      - dev
+    paths:
+      - '*'
+
+jobs:
+  deploy:
+    name: Build and deploy yukkuricraft.net
+    runs-on: ubuntu-latest
+    steps:
+    - name: Extract branch name
+      shell: bash
+      run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+      id: extract_branch
+
+    - name: Checkout
+      uses: actions/checkout@master
+      with:
+        token: ${{secrets.YCINFRABOT_PAT_REMI}}
+        submodules: recursive
+        #lfs: true
+
+    - name: Build and push Docker images
+      uses: docker/build-push-action@v1
+      with:
+        username: _json_key
+        password: ${{ secrets.GCP_SA_JSON_KEY }}
+        registry: gcr.io
+        repository: ${{ secrets.GCR_REPOSITORY_URL }}
+        tags: latest
