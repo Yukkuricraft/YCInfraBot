@@ -9,5 +9,5 @@ We utilize infrastructure provisioned from the [terraform](../../../terraform) r
 
 1. Upon pushing a change to this repo, a [GitHub Action](.github/workflows/build.yml) kicks off.
 2. Once built, the image is uploaded to a GCR repository using the repo secret `GCP_SA_JSON_KEY`
-3. GCP Compute Instance running COS will pull and run the image as a [systemd service](../../../blob/master/terraform/workspaces/yc-toolbox/templates/cloud-init.yml.tpl).
+3. GCP Compute Instance running COS will pull and run the image as a [systemd service](../../../terraform/blob/master/workspaces/yc-toolbox/templates/cloud-init.yml.tpl).
     a. TODO: Need to implement pyorouboros or watchtower for auto image updating
