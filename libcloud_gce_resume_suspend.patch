@@ -1,0 +1,83 @@
+diff --git a/libcloud/compute/drivers/gce.py b/libcloud/compute/drivers/gce.py
+index 996ff3b0..3e23536d 100644
+--- a/libcloud/compute/drivers/gce.py
++++ b/libcloud/compute/drivers/gce.py
+@@ -40,7 +40,7 @@ from libcloud.compute.providers import Provider
+ from libcloud.compute.types import NodeState
+ from libcloud.utils.iso8601 import parse_date
+ 
+-API_VERSION = 'v1'
++API_VERSION = 'beta'
+ DEFAULT_TASK_COMPLETION_TIMEOUT = 180
+ 
+ 
+@@ -6785,6 +6785,50 @@ class GCENodeDriver(NodeDriver):
+ 
+         return True
+ 
++    def resume_node(self, node, ex_sync=True):
++        """
++        Resume a suspended node.
++
++        :param  node: Node object to stop
++        :type   node: :class:`Node`
++
++        :keyword  sync: If true, do not return until resumed or timeout
++        :type     sync: ``bool``
++
++        :return:  True if successful
++        :rtype:   ``bool``
++        """
++        request = '/zones/%s/instances/%s/resume' % (node.extra['zone'].name,
++                                                     node.name)
++        if ex_sync:
++            self.connection.async_request(request, method='POST')
++        else:
++            self.connection.request(request, method='POST')
++
++        return True
++
++    def suspend_node(self, node, ex_sync=True):
++        """
++        Suspend a running node
++
++        :param  node: Node object to stop
++        :type   node: :class:`Node`
++
++        :keyword  sync: If true, do not return until suspended or timeout
++        :type     sync: ``bool``
++
++        :return:  True if successful
++        :rtype:   ``bool``
++        """
++        request = '/zones/%s/instances/%s/suspend' % (node.extra['zone'].name,
++                                                     node.name)
++        if ex_sync:
++            self.connection.async_request(request, method='POST')
++        else:
++            self.connection.request(request, method='POST')
++
++        return True
++
+     def ex_start_node(self, node, sync=True):
+         # NOTE: This method is here for backward compatibility reasons after
+         # this method was promoted to be part of the standard compute API in
+@@ -6797,6 +6841,18 @@ class GCENodeDriver(NodeDriver):
+         # Libcloud v2.7.0
+         return self.stop_node(node=node, ex_sync=sync)
+ 
++    def ex_resume_node(self, node, sync=True):
++        # NOTE: This method is here for backward compatibility reasons after
++        # this method was promoted to be part of the standard compute API in
++        # Libcloud v2.7.0
++        return self.resume_node(node=node, ex_sync=sync)
++
++    def ex_suspend_node(self, node, sync=True):
++        # NOTE: This method is here for backward compatibility reasons after
++        # this method was promoted to be part of the standard compute API in
++        # Libcloud v2.7.0
++        return self.suspend_node(node=node, ex_sync=sync)
++
+     def ex_destroy_instancegroupmanager(self, manager):
+         """
+         Destroy a managed instance group.  This will destroy all instances
