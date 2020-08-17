@@ -27,6 +27,8 @@ jobs:
 
     - name: Build and push Docker images
       uses: docker/build-push-action@v1
+      env:
+        COMMIT_SHA: GITHUB_SHA
       with:
         username: _json_key
         password: ${{ secrets.GCP_SA_JSON_KEY }}

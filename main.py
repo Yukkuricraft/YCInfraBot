@@ -5,6 +5,7 @@ from discord import Message
 from discord.ext import commands
 from discord.ext.commands import Context
 
+import os
 import base64
 import json
 import tempfile
@@ -91,12 +92,21 @@ async def on_message(message: Message):
     # Alternatively watch for special prefix to denote "chatbot message"
     if message.content[:2] == ";;":
         # TODO: make this more robust
+        message.content = message.content[2:]
         await cb.respond(message)
 
     # @bot.event takes precedence in capturing the event.
     # Use .process_commands() to process all bot.command cmds.
     await bot.process_commands(message)
 
+@bot.event
+async def on_ready():
+    sha = os.getenv('COMMIT_SHA') if os.getenv('COMMIT_SHA') is not None else "UNKNOWN SHA"
+    activity = discord.Activity(
+        name = f"on SHA: {sha} -- Ping (@) me for usage info.",
+        type = discord.ActivityType.playing,
+    )
+    await bot.change_presence(activity=activity)
 
 # Start bot
 token = secrets.DISCORD_BOT_TOKEN
