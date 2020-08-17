@@ -101,7 +101,7 @@ async def on_message(message: Message):
 
 @bot.event
 async def on_ready():
-    sha = os.getenv('COMMIT_SHA') if os.getenv('COMMIT_SHA') is not None else "UNKNOWN SHA"
+    sha = os.getenv('COMMIT_SHA')[:8] if os.getenv('COMMIT_SHA') is not None else "UNKNOWN SHA"
     activity = discord.Activity(
         name = f"on SHA: {sha} -- Ping (@) me for usage info.",
         type = discord.ActivityType.playing,
