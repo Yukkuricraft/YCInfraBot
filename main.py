@@ -25,6 +25,11 @@ bot = commands.Bot(command_prefix=PREFIX)
 async def _ycsandbox(ctx: Context, *args):
     usage = f"Usage: `{PREFIX}ycsandbox [start|stop|status]`"
 
+    if ctx.message.channel.id not in sandbox.ENABLED_CHANNELS:
+        # TODO: Make this more robust in general. Build out more of the framework prob
+        # Silently short circuit
+        return
+
     if not args or len(args) > 1:
         await ctx.send(usage)
         return

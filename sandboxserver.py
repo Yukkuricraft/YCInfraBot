@@ -9,6 +9,12 @@ from libcloud.compute.providers import get_driver
 
 import secrets.YCInfraBotSecrets as secrets
 
+ENABLED_CHANNELS = [
+    742098922176118885, #bot-fuckery
+    265218973535174657, #dickaroundwithbot
+    731533951889440819, #how-2-technology
+]
+
 gcp_sa_json_b64 = secrets.SA_JSON_KEY_B64.encode("ascii")
 gcp_sa_json_bytes = base64.b64decode(gcp_sa_json_b64)
 gcp_sa_json_str = gcp_sa_json_bytes.decode("ascii")
