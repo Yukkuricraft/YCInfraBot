@@ -6,6 +6,7 @@ import discord
 import cleverbot
 
 from typing import Optional
+import utils
 import secrets.YCInfraBotSecrets as secrets
 
 
@@ -38,7 +39,7 @@ class Cleverbot:
         self.__conversations[user_id] = convo_key
 
     def formatAndNormalizeMessage(self, msg_content: str) -> str:
-        bot_id_str = f"<@!{secrets.DISCORD_BOT_USER_ID}>"
+        bot_id_str = utils.getBotIdString()
 
         patterns_to_remove = [
             # TODO: one day make this more robust than what I threw together in 10 minutes

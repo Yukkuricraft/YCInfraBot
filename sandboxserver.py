@@ -34,7 +34,6 @@ def getYCNode():
     if len(nodes) > 1:
         raise Exception("Got more than one node - this should not be possible.")
 
-    print(type(nodes[0]))
     return nodes[0]
 
 
