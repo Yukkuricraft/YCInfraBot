@@ -23,10 +23,15 @@ jobs:
       with:
         token: ${{secrets.YCINFRABOT_PAT_REMI}}
         submodules: recursive
-        #lfs: true
+
+    - name: Get short SHA
+      id: short_sha
+      run: echo "::set-output name=sha8::$(echo ${GITHUB_SHA} | cut -c1-8)"
 
     - name: Build and push Docker images
       uses: docker/build-push-action@v1
+      env:
+        COMMIT_SHA8: ${{steps.short_sha.outputs.sha8}}
       with:
         username: _json_key
         password: ${{ secrets.GCP_SA_JSON_KEY }}

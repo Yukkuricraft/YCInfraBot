@@ -5,8 +5,8 @@ RUN apk add --no-cache gcc musl-dev libffi-dev openssl-dev
 # Add bash
 RUN apk add --no-cache --upgrade bash
 
-ENV COMMIT_SHA=$GITHUB_SHA
-RUN echo "SHA IS $COMMIT_SHA"
+ENV COMMIT_SHA "$COMMIT_SHA8"
+RUN echo "SHA IS $COMMIT_SHA - $COMMIT_SHA8"
 
 COPY . /app
 
