@@ -30,11 +30,10 @@ jobs:
 
     - name: Build and push Docker images
       uses: docker/build-push-action@v1
-      env:
-        COMMIT_SHA8: ${{steps.short_sha.outputs.sha8}}
       with:
         username: _json_key
         password: ${{ secrets.GCP_SA_JSON_KEY }}
         registry: gcr.io
         repository: ${{ secrets.GCR_REPOSITORY }}
         tags: latest
+        build_args: COMMIT_SHA8=${{steps.short_sha.outputs.sha8}}
