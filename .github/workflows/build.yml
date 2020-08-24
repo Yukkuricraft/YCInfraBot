@@ -10,7 +10,7 @@ on:
 
 jobs:
   deploy:
-    name: Build and deploy yukkuricraft.net
+    name: Build and publish YCInfraBot image
     runs-on: ubuntu-latest
     steps:
     - name: Extract branch name
