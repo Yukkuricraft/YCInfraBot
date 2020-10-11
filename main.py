@@ -6,11 +6,7 @@ from discord.ext import commands
 from discord.ext.commands import Context
 
 import os
-import base64
 import json
-import tempfile
-from libcloud.compute.types import Provider
-from libcloud.compute.providers import get_driver
 
 import utils
 import cbwrapper as cb
@@ -99,14 +95,20 @@ async def on_message(message: Message):
     # Use .process_commands() to process all bot.command cmds.
     await bot.process_commands(message)
 
+
 @bot.event
 async def on_ready():
-    sha = os.getenv('COMMIT_SHA')[:8] if os.getenv('COMMIT_SHA') is not None else "UNKNOWN SHA"
+    sha = (
+        os.getenv("COMMIT_SHA8")
+        if os.getenv("COMMIT_SHA8") is not None
+        else "UNKNOWN SHA"
+    )
     activity = discord.Activity(
-        name = f"on SHA: {sha} -- Ping (@) me for usage info.",
-        type = discord.ActivityType.playing,
+        name=f"on SHA: {sha} -- Ping (@) me for usage info.",
+        type=discord.ActivityType.playing,
     )
     await bot.change_presence(activity=activity)
+
 
 # Start bot
 token = secrets.DISCORD_BOT_TOKEN

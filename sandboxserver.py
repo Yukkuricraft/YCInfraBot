@@ -10,9 +10,9 @@ from libcloud.compute.providers import get_driver
 import secrets.YCInfraBotSecrets as secrets
 
 ENABLED_CHANNELS = [
-    742098922176118885, #bot-fuckery
-    265218973535174657, #dickaroundwithbot
-    731533951889440819, #how-2-technology
+    742098922176118885,  # bot-fuckery
+    265218973535174657,  # dickaroundwithbot
+    731533951889440819,  # how-2-technology
 ]
 
 gcp_sa_json_b64 = secrets.SA_JSON_KEY_B64.encode("ascii")
@@ -27,9 +27,10 @@ gcp_sa_temp_file.flush()  # Occasionally getting cases where contents aren't flu
 ComputeEngine = get_driver(Provider.GCE)
 gcp_driver = ComputeEngine(
     secrets.SA_EMAIL,
-    key=gcp_sa_temp_file.name,
+    gcp_sa_temp_file.name,
     project=secrets.GCP_PROJECT_ID,
-    auth_typoe="GCE",
+    datacenter=secrets.GCP_PROJECT_ZONE,
+    auth_type="SA",
 )
 
 
