@@ -36,7 +36,7 @@ gcp_driver = ComputeEngine(
 
 def getYCNode():
     nodes = gcp_driver.list_nodes(secrets.GCP_PROJECT_ZONE)
-    nodes = list(filter(lambda node: node.name == secrets.COMPUTE_INSTANCE_NAME, nodes))
+    nodes = list(filter(lambda node: node.name == secrets.SANDBOX_COMPUTE_INSTANCE_NAME, nodes))
 
     if len(nodes) > 1:
         raise Exception("Got more than one node - this should not be possible.")

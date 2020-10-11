@@ -85,6 +85,7 @@ async def on_message(message: Message):
     for mention in message.mentions:
         if str(mention.id) == str(secrets.DISCORD_BOT_USER_ID):
             await cb.respond(message)
+
     # Alternatively watch for special prefix to denote "chatbot message"
     if message.content[:2] == ";;":
         # TODO: make this more robust
